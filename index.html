@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Meeting</title>
+    <!-- Include the Video SDK library here -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+    <script src="https://sdk.videosdk.live/js-sdk/0.0.63/videosdk.js"></script>
+    <link rel="stylesheet" href="styles.css"> <!-- Add a separate CSS file -->
+</head>
+<body>
+
+        <div class="video-holder">
+        <div class="video-grid" id="videoContainer"> </div>
+        </div>
+        <div id="textDiv" class="message">Whats Your meeting ID?</div>
+        <div class="signin" id="signin">
+            <input type="text" id="meetingIdInput" placeholder="Enter Meeting ID">
+            <button id="joinButton" class="join-button">Join</button>
+        </div>
+    </div>
+    </div>
+    <div class="controllers">
+        <div class="timer" id="timer"></div>
+        
+        <div class="center-controllers">
+            <div class="circle-icon" id="microphone-button">
+                <i class="fas fa-microphone"></i>
+            
+            </div>
+            <div class="circle-icon" id="video-button">
+                <i class="fas fa-video"></i>
+            </div>
+            <div class="circle-icon" id="share-button">
+                <i class="fas fa-share"></i>
+            </div>
+            <div class="circle-icon phone-icon" id="end-button">
+                <i>END</i>
+            </div>
+        </div>
+        
+        <div class="right-controllers">
+            <i class="fas fa-users"></i>
+            <i class="fas fa-comments"></i>
+        </div>
+    </div>
+    
+    
+    <!-- Include your JavaScript file -->
+    <script src="index.js"></script>
+    
+    <script src="https://sdk.videosdk.live/rtc-js-prebuilt/0.3.31/rtc-js-prebuilt.js"></script>
+</body>
+<script>
+// Wrap the code that contains 'await' in an async function
+async function setupWebRTC() {
+    try {
+        const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const audioTrack = audioStream.getAudioTracks()[0];
+        const audioSender = pc.addTrack(audioTrack, audioStream);
+
+        // Rest of your code
+        const senders = pc.getSenders();
+        const audioSender = senders.find(sender => sender.track && sender.track.kind === 'audio'); // Remove this line
+
+        const microphoneButton = document.getElementById('microphone-button');
+
+        // Function to toggle microphone mute/unmute
+        function toggleMicrophone() {
+            // Rest of your code
+        }
+
+        // Add a click event listener to the microphone button
+        microphoneButton.addEventListener('click', toggleMicrophone);
+    } catch (error) {
+        console.error('Error setting up WebRTC:', error);
+    }
+}
+
+// Call the async function to start the setup
+setupWebRTC();
+
+
+
+
+
+
+
+    // Set the date and time to count down to (replace with your desired date and time)
+    const countDownDate = new Date("2023-12-31T23:59:59").getTime();
+
+// Update the countdown every 1 second
+const timer = setInterval(function () {
+const now = new Date().getTime();
+const distance = countDownDate - now;
+
+// Calculate hours and minutes
+const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+// Format the hours and minutes with leading zeros
+const formattedHours = hours.toString().padStart(2, '0');
+const formattedMinutes = minutes.toString().padStart(2, '0');
+
+// Display the countdown timer in the "00:00" format
+const timerElement = document.getElementById("timer");
+timerElement.innerHTML = `${formattedHours}:${formattedMinutes}`;
+
+// When the countdown is over, display a message
+if (distance < 0) {
+   clearInterval(timer);
+   timerElement.innerHTML = "Countdown expired!";
+}
+}, 1000);
+</script>
+</html>
+
+
