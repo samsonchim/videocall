@@ -1,5 +1,5 @@
 // Constants
-const API_BASE_URL = "https://api.vosdk.live";
+const API_BASE_U_R_L = "https://api.live";
 
 // Declaring variables
 let videoContainer = document.getElementById("videoContainer");
@@ -11,10 +11,6 @@ let btnScreenShare = document.getElementById("btnScreenShare");
 let videoScreenShare = document.getElementById("videoScreenShare");
 let btnRaiseHand = document.getElementById("btnRaiseHand");
 // let btnStopPresenting = document.getElementById("btnStopPresenting");
-let btnSend = document.getElementById("btnSend");
-let participantsList = document.getElementById("participantsList");
-let videoCamOff = document.getElementById("main-pg-cam-off");
-let videoCamOn = document.getElementById("main-pg-cam-on");
 
 let micOn = document.getElementById("main-pg-unmute-mic");
 let micOff = document.getElementById("main-pg-mute-mic");
@@ -54,12 +50,11 @@ async function tokenGeneration() {
       .fetch(AUTH_URL + "/generateJWTToken")
       .then(async (response) => {
         const { token } = await response.json();
-        console.log(token);
+      
         return token;
       })
       .catch(async (e) => {
-        console.log(await e);
-        return;
+       
       });
   } else if (AUTH_URL == "" && TOKEN == "") {
     alert("Set Your configuration details first ");
@@ -67,8 +62,7 @@ async function tokenGeneration() {
     // window.location.reload();
   } else {
     alert("Check Your configuration once ");
-    window.location.href = "/";
-    // window.location.reload();
+  
   }
 }
 
@@ -76,21 +70,7 @@ async function validateMeeting() {
   tokenGeneration();
   meetingId = document.getElementById("joinMeetingId").value;
   if (token != "") {
-    const url = `${API_BASE_URL}/api/meetings/${meetingId}`;
-
-    const options = {
-      method: "POST",
-      headers: { Authorization: token },
-    };
-
-    const result = await fetch(url, options)
-      .then((response) => response.json()) //result will have meeting id
-      .catch((error) => {
-        console.error("error", error);
-        alert("Invalid Meeting Id");
-        window.location.href = "/";
-        return;
-      });
+   
     if (result.meetingId === meetingId) {
       navigator.mediaDevices
         .getUserMedia({
@@ -429,26 +409,13 @@ async function joinMeeting(newMeeting) {
     toggleControls();
   }
 
-  if (createMeetingFlag == 1) {
-    document.getElementById("joinPage").style.display = "none";
-    document.getElementById("home-page").style.display = "none";
-    document.getElementById("gridPpage").style.display = "flex";
-    toggleControls();
-  } else if (joinMeetingFlag == 1) {
-    document.getElementById("joinPage").style.display = "flex";
-    document.getElementById("home-page").style.display = "none";
-    document.getElementById("gridPpage").style.display = "none";
-  }
+
 
   //create New Token
   // tokenGeneration();
 
   const options = {
-    method: "POST",
-    headers: {
-      Authorization: token,
-      "Content-Type": "application/json",
-    },
+   
     body: JSON.stringify({ token }),
   };
 
@@ -550,17 +517,7 @@ function setTrack(stream, audioElement, participant, isLocal) {
       .catch((error) => console.error("audioElem.play() failed", error));
   }
   if (stream.kind == "share" && !isLocal) {
-    screenShareOn = true;
-    const mediaStream = new MediaStream();
-    mediaStream.addTrack(stream.track);
-    videoScreenShare.srcObject = mediaStream;
-    videoScreenShare
-      .play()
-      .catch((error) =>
-        console.error("videoElem.current.play() failed", error)
-      );
-    videoScreenShare.style.display = "inline-block";
-    btnScreenShare.style.color = "brown";
+   
   }
 }
 
@@ -626,19 +583,7 @@ function addDomEvents() {
   });
 
   // //leave Meeting Button
-  $("#leaveCall").click(async () => {
-    participants = new Map(meeting.participants);
-    meeting.leave();
-    window.location.reload();
-    document.getElementById("home-page").style.display = "flex";
-  });
-
-  //end meeting button
-  $("#endCall").click(async () => {
-    meeting.end();
-    window.location.reload();
-  });
-
+  
   // //startVideo button events [playing VIDEO.MP4]
   // startVideoBtn.addEventListener("click", async () => {
   //   meeting.startVideo({ link: "/video.mp4" });
