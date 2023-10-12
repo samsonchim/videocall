@@ -1,5 +1,5 @@
 // Constants
-const API_BASE_URL = "https://api.videosdk.live";
+const API_BASE_URL = "https://api.vosdk.live";
 
 // Declaring variables
 let videoContainer = document.getElementById("videoContainer");
